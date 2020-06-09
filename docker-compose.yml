@@ -13,18 +13,16 @@ services:
     environment:
       MONGO_INITDB_ROOT_USERNAME: root
       MONGO_INITDB_ROOT_PASSWORD: example
-
-  # mongo-express:
-  #   image: mongo-express
-  #   restart: always
-  #   ports:
-  #     - 8081:8081
-  #   environment:
-  #     ME_CONFIG_MONGODB_ADMINUSERNAME: root
-  #     ME_CONFIG_MONGODB_ADMINPASSWORD: example
-  #   depends_on:
-  #     - mongo
-
+  mongo-express:
+    image: mongo-express
+    restart: always
+    ports:
+      - 8081:8081
+    environment:
+      ME_CONFIG_MONGODB_ADMINUSERNAME: root
+      ME_CONFIG_MONGODB_ADMINPASSWORD: example
+    depends_on:
+      - mongo
   backend:
     container_name: backend
     build: ./backend
@@ -34,7 +32,6 @@ services:
     depends_on:
       - mongo
       - kafka
-
   frontend:
     container_name: frontend
     stdin_open: true
@@ -46,7 +43,6 @@ services:
   # #   image: redis
   # #   ports:
   # #     - "6379:6379"
-
   kafka:
     image: spotify/kafka
     hostname: kafka
@@ -65,3 +61,17 @@ services:
       # INTER.BROKER.LISTENER.NAME: PLAINTEXT
     volumes:
       - ./data/kafka:/tmp/kafka-logs
+  # elastico:
+  #   image: elasticsearch:7.6.2
+  #   ports:
+  #     - "127.0.0.1:9200:9200"
+  #     - "9300:9300"
+  #   volumes:
+  #     - ./data/Elasticsearch/data:/var/lib/elasticsearch
+  #     - ./data/Elasticsearch/config/elasticsearch.yml:/etc/elasticsearch/config/elasticsearch.yml
+  #   tty: true
+  #   environment:
+  #     - discovery.type=single-node
+  #     - cluster.name=docker-cluster
+  #     - bootstrap.memory_lock=true
+  #     - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
