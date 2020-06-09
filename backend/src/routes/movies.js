@@ -3,7 +3,7 @@ let mongoose = require('mongoose');
 
 let app = express.Router();
 
-mongoose.connect("mongodb://root:example@localhost:27017/movieDB?authSource=admin", { useNewUrlParser: true, useUnifiedTopology: true })
+mongoose.connect("mongodb://root:example@mongo:27017/movieDB?authSource=admin", { useNewUrlParser: true, useUnifiedTopology: true })
     .then(() => console.log('Connected to MongoDB ...'))
     .catch(err => {
         console.error('Could not connect to MongoDB:‌');
